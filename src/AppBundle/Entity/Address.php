@@ -43,7 +43,7 @@ class Address
      * @ORM\Column(name="zipcode", type="string", length=255)
      * @Assert\NotNull(message="Le code postal est requis")
      * @Assert\Regex(pattern="/^[0-9]+$/", message="Le code postal doit comporter que des chiffres")
-     * @Assert\Length(min="5", max="5", exactMessage="Le code postal doit comporter 5 chiffres")
+     * @Assert\Length(min="4", max="5", exactMessage="Le code postal doit comporter 4 ou 5 chiffres")
      */
     private $zipcode;
 
