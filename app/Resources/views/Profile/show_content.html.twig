@@ -25,7 +25,7 @@
             </div>
         </li>
         {% endif %}
-        {% if badge_usage_enabled %}
+        {% if badge_usage %}
             <li>
                 <div class="collapsible-header"><i class="material-icons">credit_card</i>Badge{% if app.user.beneficiary.swipeCards | length > 1%}s{% endif %}</div>
                 <div class="collapsible-body">
