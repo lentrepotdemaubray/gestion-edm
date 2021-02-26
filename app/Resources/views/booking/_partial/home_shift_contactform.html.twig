@@ -50,7 +50,7 @@
     </div>
     <div class="modal-footer">
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat red-text">Retour</a>
-        <a href="#"
+        <a href="#" disabled='disabled'
            class="modal-action modal-close waves-effect waves-green btn-flat teal white-text"
            onclick="javascript:$('#contactform{{ shift.id }}').submit();return false;"><i class="material-icons right">send</i>Envoyer</a>
     </div>
@@ -126,6 +126,9 @@
                 ids.push($name.data('id'));
             }
             $("#contactform{{ shift.id }} input[name='form[to]']").val(JSON.stringify(ids));
+
+            if($("#to{{ shift.id }} div.chip").length > 0) $("#contact{{ shift.id }} a[href='#'].modal-close").removeAttr("disabled");
+            else $("#contact{{ shift.id }} a[href='#'].modal-close").attr("disabled", "disabled");
         }
     }
     setTimeout(toto{{ shift.id }},500);

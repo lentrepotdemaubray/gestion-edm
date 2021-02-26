@@ -62,14 +62,7 @@
                         effectuer {{ (shift_service.shiftTimeByCycle(member) - member.timeCount(member.endOfCycle)) | duration_from_minutes }}
                         .</p>
                 {% elseif (allow_extra_shifts) %}
-                    <p>
-                        {% if member.beneficiaries | length %}
-                            Vous pouvez
-                        {% else %}
-                            Tu peux
-                        {% endif %}
-                        encore effectuer des créneaux.
-                    </p>
+                    
                 {% else %}
                     <p><i class="material-icons">stars</i> Bravo !
                         Tous {% if member.beneficiaries | length %}vos{% else %}tes{% endif %} créneaux ont été

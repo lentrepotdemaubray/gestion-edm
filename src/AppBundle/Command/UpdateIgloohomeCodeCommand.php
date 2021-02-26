@@ -49,7 +49,7 @@ class UpdateIgloohomeCodeCommand extends ContainerAwareCommand
             $output->writeln('<fg=red;> Echec de la création du code (code http retourné : ' . $status . '). Réponse : ' . $content . '</>');
             $mailer = $this->getContainer()->get('mailer');
             $shiftEmail = $this->getContainer()->getParameter('emails.shift');
-            $mail = (new \Swift_Message('[ESPACE MEMBRES] Echec de création du code du boitier'))
+            $mail = (new \Swift_Message('[ESPACE GESTION] Echec de création du code du boitier'))
                 ->setFrom($shiftEmail['address'], $shiftEmail['from_name'])
                 ->setTo($recipients)
                 ->setBody('Echec de génération du code du boitier Igloohome');

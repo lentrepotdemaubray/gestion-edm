@@ -111,3 +111,9 @@ parameters:
     logging.swiftmailer.recipient: ~
 
     code_generation_enabled: true
+
+    allow_account_freezing: false
+    badge_usage: false
+    task_usage: false
+    news_usage: false
+    code_usage: false

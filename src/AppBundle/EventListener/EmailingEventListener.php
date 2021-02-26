@@ -152,7 +152,7 @@ class EmailingEventListener
         $payment = $event->getPayment();
 
         if ($user->getBeneficiary()->getMembership()->getRegistrations()->count()>1){
-            $thanks = (new \Swift_Message('[ESPACE MEMBRES] Re-adhésion helloasso bien reçue !'))
+            $thanks = (new \Swift_Message('[ESPACE GESTION] Re-adhésion helloasso bien reçue !'))
                 ->setFrom($this->memberEmail['address'], $this->memberEmail['from_name'])
                 ->setTo($user->getEmail())
                 ->setBody(
@@ -164,7 +164,7 @@ class EmailingEventListener
                     'text/html'
                 );
         }else{
-            $thanks = (new \Swift_Message('[ESPACE MEMBRES] Adhésion helloasso bien reçue !'))
+            $thanks = (new \Swift_Message('[ESPACE GESTION] Adhésion helloasso bien reçue !'))
                 ->setFrom($this->container->getParameter('transactional_mailer_user'))
                 ->setTo($user->getEmail())
                 ->setBody(
@@ -194,7 +194,7 @@ class EmailingEventListener
         $membershipExpiration = $membershipService->getExpire($membership);
 
         try {
-            $oups = (new \Swift_Message('[ESPACE MEMBRES] Oups ! il et trop tôt pour réadhérer !'))
+            $oups = (new \Swift_Message('[ESPACE GESTION] Oups ! il et trop tôt pour réadhérer !'))
                 ->setFrom($this->memberEmail['address'], $this->memberEmail['from_name'])
                 ->setTo($user->getEmail())
                 ->setBody(
@@ -222,7 +222,7 @@ class EmailingEventListener
     {
         $shift = $event->getShift();
 
-        $archive = (new \Swift_Message('[ESPACE MEMBRES] BOOKING'))
+        $archive = (new \Swift_Message('[ESPACE GESTION] BOOKING'))
             ->setFrom($this->shiftEmail['address'], $this->shiftEmail['from_name'])
             ->setTo($this->shiftEmail['address'])
             ->setReplyTo($shift->getShifter()->getEmail())
@@ -245,7 +245,7 @@ class EmailingEventListener
         $this->logger->info("Emailing Listener: onShiftDeleted");
         $shift = $event->getShift();
         if ($shift->getShifter()) { //warn shifter
-            $warn = (new \Swift_Message('[ESPACE MEMBRES] Crénéau supprimé'))
+            $warn = (new \Swift_Message('[ESPACE GESTION] Crénéau supprimé'))
                 ->setFrom($this->shiftEmail['address'], $this->shiftEmail['from_name'])
                 ->setTo($shift->getShifter()->getEmail())
                 ->setBody(
@@ -269,7 +269,7 @@ class EmailingEventListener
         $shift = $event->getShift();
         $beneficiary = $event->getBeneficiary();
         if ($shift->getIsUpcoming()) {
-            $warn = (new \Swift_Message("[ESPACE MEMBRES] Crénéau annulé moins de 48 heures à l'avance"))
+            $warn = (new \Swift_Message("[ESPACE GESTION] Crénéau annulé moins de 48 heures à l'avance"))
                 ->setFrom($this->shiftEmail['address'], $this->shiftEmail['from_name'])
                 ->setTo($this->shiftEmail['address'])
                 ->setReplyTo($beneficiary->getEmail())
@@ -305,7 +305,7 @@ class EmailingEventListener
         // member wont be frozen for this cycle && not a fresh new member && member still have to book
         if (!$membership->getFrozen() && $membership->getFirstShiftDate() < $date && $membership->getCycleShiftsDuration() < $this->due_duration_by_cycle) {
             foreach ($membership->getBeneficiaries() as $beneficiary){
-                $mail = (new \Swift_Message('[ESPACE MEMBRES] Début de ton cycle, réserve tes créneaux'))
+                $mail = (new \Swift_Message('[ESPACE GESTION] Début de ton cycle, réserve tes créneaux'))
                     ->setFrom($this->shiftEmail['address'], $this->shiftEmail['from_name'])
                     ->setTo($beneficiary->getEmail())
                     ->setBody(
@@ -336,7 +336,7 @@ class EmailingEventListener
         $home_url = $router->generate('homepage', array(), UrlGeneratorInterface::ABSOLUTE_URL);
 
         if ($membership->getFirstShiftDate() < $date && $membership->getCycleShiftsDuration() < $this->due_duration_by_cycle) { //only if member still have to book
-            $mail = (new \Swift_Message('[ESPACE MEMBRES] déjà la moitié de ton cycle, un tour sur ton espace membre ?'))
+            $mail = (new \Swift_Message('[ESPACE GESTION] déjà la moitié de ton cycle, un tour sur ton espace membre ?'))
                 ->setFrom($this->shiftEmail['address'], $this->shiftEmail['from_name'])
                 ->setTo($membership->getMainBeneficiary()->getEmail())
                 ->setBody(
@@ -363,7 +363,7 @@ class EmailingEventListener
         $router = $this->container->get('router');
         $code_change_done_url = $router->generate('code_change_done', array('token' => $this->container->get('AppBundle\Helper\SwipeCard')->vigenereEncode($code->getRegistrar()->getUsername() . ',code:' . $code->getId())), UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $notify = (new \Swift_Message('[ESPACE MEMBRES] Nouveau code boîtier clefs'))
+        $notify = (new \Swift_Message('[ESPACE GESTION] Nouveau code boîtier clefs'))
             ->setFrom($this->shiftEmail['address'], $this->shiftEmail['from_name'])
             ->setTo($code->getRegistrar()->getEmail())
             ->setBody(
