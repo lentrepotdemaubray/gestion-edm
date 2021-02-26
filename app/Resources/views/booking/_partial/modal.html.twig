@@ -21,28 +21,30 @@
           </div>
         {% endif %}
 
-        {% if availableShifts | length == 1 %}
-            {% if not firstBookable.formation and beneficiary.formations | length %}
-                <div class="row">
-                    <div class="col s12">
-                        <div class="card-panel teal warning">
-                            <span class="white-text">
-                                <i class="material-icons">warning</i>
-                                Ce créneau n'est <b>pas</b> qualifié. {{ beneficiary.firstname }} a
-                                {% if beneficiary.formations | length %}la formations
-                                {% else %} les formations
-                                {% endif %}
-                                {% for formation in beneficiary.formations %}
-                                {% if loop.last and loop.index > 1 %} et {% endif %}
-                                        <i>{{ formation.name }}</i>
-                                    {% if not loop.last %}, {% endif %}
-                                {% endfor %}.<br>
-                                Tes compétences sont précieuses, pense si possible à les valoriser sur <b>un créneau qualifié</b>.
-                            </span>
-                        </div>
+        {% if not firstBookable.formation and beneficiary.formations | length %}
+            <div class="row">
+                <div class="col s12">
+                    <div class="card-panel teal warning">
+                        <span class="white-text">
+                            <i class="material-icons">warning</i>
+                            Tu a
+                            {% if beneficiary.formations | length > 1 %}
+                                les formations
+                            {% else %}
+                                la formation
+                            {% endif %}
+                            {% for formation in beneficiary.formations %}
+                            {% if loop.last and loop.index > 1 %} et {% endif %}
+                                    <i>{{ formation.name }}</i>{% if loop.last %}.{% else %}, {% endif %}
+                            {% endfor %}
+                            <br>Ce créneau n'est <b>pas</b> qualifié. Tes compétences sont précieuses, pense si possible à les valoriser sur <b>un créneau qualifié</b>.
+                        </span>
                     </div>
                 </div>
-            {% endif %}
+            </div>
+        {% endif %}
+
+        {% if availableShifts | length == 1 %}
             {% if firstBookable.isDismissed %}
                 <h6><i class="material-icons">star</i> Ceci est un créneau à reprendre</h6>
             {% endif %}
@@ -85,8 +87,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            <p>Attention ! Cette inscription vous engage. <br>
-                Pour pouvoir annuler, votre créneau devra trouver repreneur.
+            <p>Cette inscription vous engage. Pour pouvoir annuler, votre créneau devra trouver repreneur.
             </p>
         {% endif %}
     </div>
