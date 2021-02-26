@@ -117,7 +117,7 @@ class ShiftGenerateCommand extends ContainerAwareCommand
             $shiftEmail = $this->getContainer()->getParameter('emails.shift');
             foreach ($reservedShifts as $i => $shift){
                 $d = (date_diff(new \DateTime('now'),$shift->getStart())->format("%d"));
-                $mail = (new \Swift_Message('[ESPACE MEMBRES] Reprends ton créneau du '. $oldShifts[$i]->getStart()->format("d F") .' dans '.$d.' jours'))
+                $mail = (new \Swift_Message('[ESPACE GESTION] Reprends ton créneau du '. $oldShifts[$i]->getStart()->format("d F") .' dans '.$d.' jours'))
                     ->setFrom($shiftEmail['address'], $shiftEmail['from_name'])
                     ->setTo($shift->getLastShifter()->getEmail())
                     ->setBody(
