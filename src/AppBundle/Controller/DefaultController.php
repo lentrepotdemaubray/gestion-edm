@@ -36,16 +36,6 @@ use Symfony\Component\Serializer\Encoder\JsonDecode;
 class DefaultController extends Controller
 {
     /**
-     * @var boolean
-     */
-    private $swipeCardLogging;
-
-    public function __construct(string $swipeCardLogging)
-    {
-        $this->swipeCardLogging = $swipeCardLogging;
-    }
-
-    /**
      * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
@@ -193,9 +183,8 @@ class DefaultController extends Controller
     {
         $this->denyAccessUnlessGranted('card_reader', $this->getUser());
         $em = $this->getDoctrine()->getManager();
-        $shifts = $em->getRepository('AppBundle:Shift')->findRemainingToday();
+        $shifts = $em->getRepository('AppBundle:Shift')->findInProgress(new \DateTime('now'));
         $buckets = $this->get('shift_service')->generateShiftBuckets($shifts);
-        $buckets = $this->get('shift_service')->removeEmptyShift($buckets);
 
         $dynamicContent = $em->getRepository('AppBundle:DynamicContent')->findOneByCode('CARD_READER')->getContent();
 
@@ -225,10 +214,9 @@ class DefaultController extends Controller
         if (!$card) {
             $session->getFlashBag()->add("error", "Oups, ce badge n'est pas actif ou n'existe pas");
         } else {
-            if ($this->swipeCardLogging) {
-                $dispatcher = $this->get('event_dispatcher');
-                $dispatcher->dispatch(SwipeCardEvent::SWIPE_CARD_SCANNED, new SwipeCardEvent($card));
-            }
+            $dispatcher = $this->get('event_dispatcher');
+            $dispatcher->dispatch(SwipeCardEvent::SWIPE_CARD_SCANNED, new SwipeCardEvent($card));
+
             $beneficiary = $card->getBeneficiary();
             return $this->render('user/check.html.twig', [
                 'beneficiary' => $beneficiary,

@@ -164,7 +164,7 @@ class TimeLogEventListener
         $log->setType(TimeLog::TYPE_CYCLE_END);
         $this->em->persist($log);
 
-        $counter_today = $membership->getTimeCount($date);
+        /*$counter_today = $membership->getTimeCount($date);
         if ($counter_today > $this->due_duration_by_cycle) { //surbook
             $log = new TimeLog();
             $log->setMembership($membership);
@@ -172,7 +172,7 @@ class TimeLogEventListener
             $log->setDate($date);
             $log->setType(TimeLog::TYPE_CYCLE_END_REGULATE_OPTIONAL_SHIFTS);
             $this->em->persist($log);
-        }
+        }*/
         $this->em->flush();
     }
 
