@@ -16,15 +16,17 @@
                     data-ticks-angle="180"
                     data-value-box="false"
                     data-value="{{ member.timeCount / 60 }}"
-                    data-max-value="{{ ((member.beneficiaries | length) * due_duration_by_cycle) / 60 }}"
-                    data-major-ticks="{{ due_duration_hour * -3 }}h,{{ due_duration_hour * -2 }}h,{{ due_duration_hour * -1}}h,0,{{ due_duration_hour }}h{% if (member.beneficiaries | length) > 1 %},{{ due_duration_hour *2 }}h{% endif %}"
+                    data-max-value="{{ ((member.beneficiaries | length) * due_duration_by_cycle * 3) / 60 }}"
+                    data-major-ticks="{{ due_duration_hour * -3 }}h,{{ due_duration_hour * -2 }}h,{{ due_duration_hour * -1}}h,0,{{ due_duration_hour }}h,{{ due_duration_hour * 2 }}h,{{ due_duration_hour * 3 }}h"
                     data-minor-ticks="2"
                     data-stroke-ticks="true"
                     data-highlights='[
         {"from": {{ due_duration_hour * -3 }}, "to": {{ due_duration_hour * -2 }}, "color": "rgba(200, 50, 50, .95)"},
         {"from": {{ due_duration_hour * -2 }}, "to": {{ due_duration_hour * -1 }}, "color": "rgba(200, 50, 50, .75)"},
         {"from": {{ due_duration_hour * -1 }}, "to": 0, "color": "yellow"},
-        {"from": 0, "to": {{ due_duration_hour }}, "color": "#8bc34a55"}{% if (member.beneficiaries | length) > 1 %},{"from": {{ due_duration_hour }}, "to": {{ due_duration_hour * 2 }}, "color": "#8bc34a"}{% endif %}
+        {"from": 0, "to": {{ due_duration_hour }}, "color": "#8bc34a55"},
+        {"from": {{ due_duration_hour }}, "to": {{ due_duration_hour * 2 }}, "color": "#8bc34a"},
+        {"from": {{ due_duration_hour * 2 }}, "to": {{ due_duration_hour * 3 }}, "color": "#0e581b"}
     ]'
                     data-color-plate="#fff"
                     data-border-shadow-width="0"
@@ -62,7 +64,14 @@
                         effectuer {{ (shift_service.shiftTimeByCycle(member) - member.timeCount(member.endOfCycle)) | duration_from_minutes }}
                         .</p>
                 {% elseif (allow_extra_shifts) %}
-                    
+                    {# <p>
+                        {% if member.beneficiaries | length %}
+                            Vous pouvez
+                        {% else %}
+                            Tu peux
+                        {% endif %}
+                        encore effectuer des créneaux.
+                    </p> #}
                 {% else %}
                     <p><i class="material-icons">stars</i> Bravo !
                         Tous {% if member.beneficiaries | length %}vos{% else %}tes{% endif %} créneaux ont été
