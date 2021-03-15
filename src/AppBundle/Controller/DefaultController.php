@@ -340,7 +340,7 @@ class DefaultController extends Controller
             }
             $message = (new \Swift_Message('[ESPACE GESTION] Un message de ' . $from->getFirstName()))
                 ->setFrom($this->getParameter('transactional_mailer_user'))
-                ->setReplyTo($this->getParameter('transactional_mailer_user'))
+                ->setReplyTo($from->getEmail())
                 ->setBcc($emails)
                 ->setBody(
                     $this->renderView(

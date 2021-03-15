@@ -41,10 +41,15 @@
 
         {% else %}
             <div class="card-action">
-                <a href="#dismiss{{ shift.id }}" class="modal-trigger btn-flat red white-text">Annuler</a>
-                {% if (shift.getIsUpcoming()) %}
+                <div class="row">
+                    <a href="#dismiss{{ shift.id }}" class="modal-trigger btn-flat red white-text">Annuler</a>
+                </div>
+                <div>
+                {# {% if (shift.getIsUpcoming()) %}
                     <a href="#contact{{ shift.id }}" class="modal-trigger btn-flat" title="Contacter les bénévoles du créneau"><i class="material-icons">email</i></a>
-                {% endif %}
+                {% endif %} #}
+                    <a href="#contact{{ shift.id }}" class="modal-trigger btn-flat orange white-text" title="Contacter les bénévoles du créneau">Participants</a>
+                </div>
             </div>
             <div id="dismiss{{ shift.id }}" class="modal black-text">
                 <form action="{{ path('shift_dismiss',{'id':shift.id}) }}" method="post">
@@ -66,6 +71,7 @@
     {% endif %}
 
 </div>
-{% if (shift.getIsUpcoming() or shift.getIsCurrent()) %}
+{# {% if (shift.getIsUpcoming() or shift.getIsCurrent()) %}
     {{ render(controller("AppBundle:Default:shiftContactForm",{'shift':shift})) }}
-{% endif %}
+{% endif %} #}
+{{ render(controller("AppBundle:Default:shiftContactForm",{'shift':shift})) }}
