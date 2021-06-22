@@ -51,10 +51,13 @@ class ApiController extends Controller
     /**
      * @Route("/oauth/user", name="api_user")
      * @Method({"GET"})
-     * @Security("has_role('ROLE_OAUTH_LOGIN')")
      */
     public function userAction()
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        
         if ($this->get('security.authorization_checker')->isGranted('ROLE_PREVIOUS_ADMIN')) { //DO NOT ALLOW OAUTH ON LOGIN AS
             throw $this->createAccessDeniedException();
         }
@@ -71,10 +74,13 @@ class ApiController extends Controller
     /**
      * @Route("/oauth/nextcloud_user", name="api_nextcloud_user")
      * @Method({"GET"})
-     * @Security("has_role('ROLE_OAUTH_LOGIN')")
      */
     public function nextcloudUserAction()
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+
         if ($this->get('security.authorization_checker')->isGranted('ROLE_PREVIOUS_ADMIN')) { //DO NOT ALLOW OAUTH ON LOGIN AS
             throw $this->createAccessDeniedException();
         }
